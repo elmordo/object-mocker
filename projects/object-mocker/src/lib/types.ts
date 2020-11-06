@@ -136,6 +136,16 @@ export interface MockHandler extends ProxyHandler<any> {
  */
 export interface Registry {
   /**
+   * register new object - handler association
+   * @param obj object
+   * @param handler handler instance
+   */
+  register(obj: any, handler: MockHandler): void;
+  /**
+   * clear all registered associations
+   */
+  clear();
+  /**
    * get object associated to the handler.
    * @param handler instance of the handler
    * @throws Error the handler is not associated to any object
