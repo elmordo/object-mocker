@@ -129,3 +129,30 @@ export interface MockHandler extends ProxyHandler<any> {
    */
   readonly report: MockUsageReport;
 }
+
+
+/**
+ * store objects and associated handlers
+ */
+export interface Registry {
+  /**
+   * get object associated to the handler.
+   * @param handler instance of the handler
+   * @throws Error the handler is not associated to any object
+   */
+  getObjectByHandler(handler: MockHandler): any;
+  /**
+   * get handler associated to the object
+   * @param obj object associated to the handler
+   * @throws Error the object is not associated to any handler
+   */
+  getHandlerByObject(obj: any): MockHandler;
+  /**
+   * get list of all objects
+   */
+  getObjects(): any[];
+  /**
+   * get list of all handlers
+   */
+  getHandlers(): MockHandler[];
+}
