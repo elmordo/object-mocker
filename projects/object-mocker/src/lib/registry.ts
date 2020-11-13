@@ -35,5 +35,7 @@ export class MockRegistry implements Registry {
   }
 
   register(obj: any, handler: MockHandler): void {
+    this.objectToHandler.set(obj, handler);
+    this.handlerToObject.set(handler, obj);
   }
 }
