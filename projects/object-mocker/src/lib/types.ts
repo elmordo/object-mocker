@@ -83,6 +83,11 @@ export interface PropertySet extends PropertyAccess{
  */
 export interface MockUsageReport {
   /**
+   * add one record to history of object usage.
+   * @param record record instance to be added
+   */
+  addAccessRecord(record: ObjectAccess): void;
+  /**
    * get complete history of the access
    */
   getHistory(): ObjectAccess[];
@@ -117,6 +122,10 @@ export interface MockUsageReport {
    * @param predicate
    */
   filter(predicate: (report: ObjectAccess) => boolean): ObjectAccess[];
+  /**
+   * clear usage history
+   */
+  clear(): void;
 }
 
 
