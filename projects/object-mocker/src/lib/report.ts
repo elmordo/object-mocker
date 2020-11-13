@@ -36,7 +36,7 @@ export class Report implements MockUsageReport {
     return this.filter(r => {
       return r.hasOwnProperty("property") && (r as PropertyAccess).property == property;
     }) as PropertyAccess[];
-  }
+  }x
 
   getPropertyGets(): PropertyGet[] {
     return this.filter(r => r.type == "get") as PropertyGet[];
