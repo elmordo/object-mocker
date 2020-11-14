@@ -61,8 +61,8 @@ export class Handler implements MockHandler {
   }
 
   get(target: any, p: PropertyKey, receiver: any): any {
-    const wasDefined = p in receiver;
-    const value = receiver[p];
+    const wasDefined = p in target;
+    const value = target[p];
 
     const record: PropertyGet = {
       type: "get",
@@ -83,7 +83,7 @@ export class Handler implements MockHandler {
       type: "set",
       property: p as string,
       value,
-      oldValue: receiver[p],
+      oldValue: target[p],
       created: p in receiver
     };
     this.report.addAccessRecord(record);
