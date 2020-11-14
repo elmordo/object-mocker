@@ -1,15 +1,19 @@
-import {MockHandler, MockUsageReport, Registry} from "./types";
+import {MockHandler, MockUsageReport, Registry, ReturnValueFactory} from "./types";
+import {Report} from "./report";
 
 
-class Handler implements MockHandler {
+export class Handler implements MockHandler {
   emulatedPrototype: any;
 
-  readonly report: MockUsageReport = new MockUsageReport();
+  readonly report: MockUsageReport = new Report();
+
+  returnValueFactory: ReturnValueFactory;
 
   constructor(private registry: Registry, config: HandlerOptions) {
   }
 
   apply(target: any, thisArg: any, argArray?: any): any {
+    return Reflect.apply(target, thisArg, argArray);
   }
 
   construct(target: any, argArray: any, newTarget?: any): object {
@@ -17,10 +21,11 @@ class Handler implements MockHandler {
   }
 
   deleteProperty(target: any, p: PropertyKey): boolean {
-    return false;
+    return Reflect.deleteProperty(target, p);
   }
 
   get(target: any, p: PropertyKey, receiver: any): any {
+    return Reflect.get(target, p, receiver);
   }
 
   getPrototypeOf(target: any): object | null {
@@ -28,11 +33,7 @@ class Handler implements MockHandler {
   }
 
   set(target: any, p: PropertyKey, value: any, receiver: any): boolean {
-    return false;
-  }
-
-  setPrototypeOf(target: any, v: any): boolean {
-    return false;
+    return Reflect.set(target, value, receiver);
   }
 }
 
