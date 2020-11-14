@@ -3,15 +3,30 @@
  */
 export type PropertyName = string;
 
+/**
+ * type of access record
+ */
+export type AccessType = "apply"|"get"|"set"|"delete"|"construct";
 
 /**
- * common object access report
+ * common object access report record
  */
 export interface ObjectAccess {
   /**
    * type of the access
    */
-  type: "apply"|"get"|"set";
+  type: AccessType;
+}
+
+/**
+ * object as used as constructor by the `new` operator
+ */
+export interface Construct extends ObjectAccess {
+  type: "construct";
+  /**
+   * constructor arguments
+   */
+  arguments: any[];
 }
 
 
@@ -32,13 +47,21 @@ export interface Call extends ObjectAccess {
 
 
 /**
- * common property access report
+ * common property access report record
  */
 export interface PropertyAccess extends ObjectAccess {
   /**
    * name of the accessed property
    */
   property: PropertyName;
+}
+
+
+/**
+ * property was deleted
+ */
+export interface PropertyDelete extends PropertyAccess {
+  type: "delete"
 }
 
 
@@ -128,6 +151,11 @@ export interface MockUsageReport {
   clear(): void;
 }
 
+/**
+ * define return value policy for a handler
+ */
+export type ReturnValueFactory = (args: any[], handler: MockHandler) => any;
+
 
 /**
  * handler of the mock object
@@ -137,8 +165,16 @@ export interface MockHandler extends ProxyHandler<any> {
    * mock object access report
    */
   readonly report: MockUsageReport;
+  /**
+   * prototype matched by instanceof
+   * default is Object.prototype
+   */
+  emulatedPrototype: any;
+  /**
+   * return value factory
+   */
+  returnValueFactory: ReturnValueFactory;
 }
-
 
 /**
  * store objects and associated handlers
