@@ -1,11 +1,11 @@
-import {MockHandler, Registry, ReturnValueFactory} from "./types";
+import {MockHandler, Registry, ResultValueFactory} from "./types";
 import {makeSingletonFactory, makeUniqueFactory} from "./return-value-factories";
 import {Handler} from "./handler";
 import {MockRegistry} from "./registry";
 
 
 describe("return value factory", () => {
-  let factory: ReturnValueFactory;
+  let factory: ResultValueFactory;
   let handler: MockHandler;
   let registry: Registry;
 

@@ -154,7 +154,7 @@ export interface MockUsageReport {
 /**
  * define return value policy for a handler
  */
-export type ReturnValueFactory = (args: any[], handler: MockHandler) => any;
+export type ResultValueFactory = (args: any[], handler: MockHandler) => any;
 
 
 /**
@@ -175,9 +175,13 @@ export interface MockHandler extends ProxyHandler<any> {
    */
   emulatedPrototype: any;
   /**
-   * return value factory
+   * factory used when the `apply` is trapped
    */
-  returnValueFactory: ReturnValueFactory;
+  returnValueFactory: ResultValueFactory;
+  /**
+   * factory used when the `construct` is trapped
+   */
+  instanceFactory: ResultValueFactory;
 }
 
 /**
