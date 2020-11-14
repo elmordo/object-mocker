@@ -166,6 +166,10 @@ export interface MockHandler extends ProxyHandler<any> {
    */
   readonly report: MockUsageReport;
   /**
+   * the registry
+   */
+  readonly registry: Registry;
+  /**
    * prototype matched by instanceof
    * default is Object.prototype
    */
