@@ -98,7 +98,7 @@ export interface PropertySet extends PropertyAccess{
 /**
  * report of mock usage
  */
-export interface MockUsageReport {
+export interface Report {
   /**
    * add one record to history of object usage.
    * @param record record instance to be added
@@ -148,16 +148,16 @@ export interface MockUsageReport {
 /**
  * define return value policy for a handler
  */
-export type ResultValueFactory = (args: any[], handler: MockHandler) => any;
+export type ResultValueFactory = (args: any[], handler: Handler) => any;
 
 /**
  * handler of the mock object
  */
-export interface MockHandler extends ProxyHandler<any> {
+export interface Handler extends ProxyHandler<any> {
   /**
    * mock object access report
    */
-  readonly report: MockUsageReport;
+  readonly report: Report;
   /**
    * the registry
    */
@@ -182,12 +182,12 @@ export interface MockHandler extends ProxyHandler<any> {
   /**
    * parent handler
    */
-  parent?: MockHandler
+  parent?: Handler
 
   /**
    * make child handler with parent set to `this` instance
    */
-  makeChild(): MockHandler;
+  makeChild(): Handler;
 }
 
 /**
@@ -199,7 +199,7 @@ export interface Registry {
    * @param obj object
    * @param handler handler instance
    */
-  register(obj: any, handler: MockHandler): void;
+  register(obj: any, handler: Handler): void;
   /**
    * clear all registered associations
    */
@@ -209,13 +209,13 @@ export interface Registry {
    * @param handler instance of the handler
    * @throws Error the handler is not associated to any object
    */
-  getObjectByHandler(handler: MockHandler): any;
+  getObjectByHandler(handler: Handler): any;
   /**
    * get handler associated to the object
    * @param obj object associated to the handler
    * @throws Error the object is not associated to any handler
    */
-  getHandlerByObject(obj: any): MockHandler;
+  getHandlerByObject(obj: any): Handler;
   /**
    * get list of all objects
    */
@@ -223,5 +223,5 @@ export interface Registry {
   /**
    * get list of all handlers
    */
-  getHandlers(): MockHandler[];
+  getHandlers(): Handler[];
 }

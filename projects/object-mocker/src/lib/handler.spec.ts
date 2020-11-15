@@ -1,5 +1,5 @@
 import {CommonHandler, NoEmulatedPrototype} from "./handler";
-import {Call, Construct, MockHandler, PropertyDelete, PropertyGet, PropertySet, Registry} from "./types";
+import {Call, Construct, Handler, PropertyDelete, PropertyGet, PropertySet, Registry} from "./types";
 import {MockRegistry} from "./registry";
 
 
@@ -42,7 +42,7 @@ describe("Handler", () => {
   });
 
   describe("when making child", () => {
-    let child: MockHandler;
+    let child: Handler;
 
     beforeEach(() => {
       child = handler.makeChild();

@@ -1,4 +1,4 @@
-import {MockHandler, Registry, ResultValueFactory} from "./types";
+import {Handler, Registry, ResultValueFactory} from "./types";
 import {makeSingletonFactory, makeUniqueFactory} from "./return-value-factories";
 import {MockRegistry} from "./registry";
 import {CommonHandler} from "./handler";
@@ -6,7 +6,7 @@ import {CommonHandler} from "./handler";
 
 describe("return value factory", () => {
   let factory: ResultValueFactory;
-  let handler: MockHandler;
+  let handler: Handler;
   let registry: Registry;
 
   beforeEach(() => {

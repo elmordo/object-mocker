@@ -1,8 +1,8 @@
 import {
   Call,
   Construct,
-  MockHandler,
-  MockUsageReport,
+  Handler,
+  Report,
   PropertyDelete,
   PropertyGet,
   PropertySet,
@@ -12,10 +12,10 @@ import {
 import {CommonReport} from "./report";
 
 
-export class CommonHandler implements MockHandler {
+export class CommonHandler implements Handler {
   emulatedPrototype: any;
 
-  readonly report: MockUsageReport = new CommonReport();
+  readonly report: Report = new CommonReport();
 
   readonly registry;
 
@@ -23,7 +23,7 @@ export class CommonHandler implements MockHandler {
 
   instanceFactory: ResultValueFactory;
 
-  parent?: MockHandler;
+  parent?: Handler;
 
   readonly target: any;
 
@@ -36,7 +36,7 @@ export class CommonHandler implements MockHandler {
     this.target = options.target || {};
   }
 
-  makeChild(): MockHandler {
+  makeChild(): Handler {
     return new CommonHandler({
       registry: this.registry,
       returnValueFactory: this.returnValueFactory,
@@ -117,5 +117,5 @@ export interface CommonHandlerOptions {
   returnValueFactory: ResultValueFactory;
   instanceFactory: ResultValueFactory;
   emulatedPrototype: any;
-  parent?: MockHandler;
+  parent?: Handler;
 }
