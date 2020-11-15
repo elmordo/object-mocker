@@ -45,9 +45,10 @@ export function mock(options?: MockOptions): any {
  * get handler of the deep child identified by its path
  * @param root the root mock object
  * @param path a path to the interested child separated by `.`
+ * @param autoCreate if true (default) missing object in path is created
  * @throws Error some part of path not found.
  */
-export function getDeepChildHandler(root: any, path: string): Handler {
+export function getDeepChildHandler(root: any, path: string, autoCreate: boolean=true): Handler {
   const registry = getRegistry(), traversedPath: string[] = [];
   let currentLevelHandler = registry.getHandlerByObject(root);
 
@@ -59,7 +60,12 @@ export function getDeepChildHandler(root: any, path: string): Handler {
     try {
       currentLevelHandler = registry.getHandlerByObject(child);
     } catch (e) {
-      throw new Error(`Deep child "${traversedPath.join(".")}" is not mocked`);
+      if (autoCreate) {
+        const obj = registry.getObjectByHandler(currentLevelHandler);
+        currentLevelHandler = registry.getHandlerByObject(obj[p]);
+      } else {
+        throw new Error(`Deep child "${traversedPath.join(".")}" is not mocked`);
+      }
     }
   }
 
