@@ -1,10 +1,10 @@
-import {Handler, NoEmulatedPrototype} from "./handler";
+import {CommonHandler, NoEmulatedPrototype} from "./handler";
 import {Call, Construct, MockHandler, PropertyDelete, PropertyGet, PropertySet, Registry} from "./types";
 import {MockRegistry} from "./registry";
 
 
 describe("Handler", () => {
-  let handler: Handler;
+  let handler: CommonHandler;
   let registry: Registry;
   let emulatedPrototype;
   let instanceFactory, returnValueFactory;
@@ -20,12 +20,12 @@ describe("Handler", () => {
       instanceFactoryCalls.push([args, handler, result])
       return result;
     }
-    returnValueFactory = (args, handler: Handler) => {
+    returnValueFactory = (args, handler: CommonHandler) => {
       const result = {};
       returnValueFactoryCalls.push([args, handler, result])
       return result;
     }
-    handler = new Handler({
+    handler = new CommonHandler({
       emulatedPrototype,
       instanceFactory,
       returnValueFactory,

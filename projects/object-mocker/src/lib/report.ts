@@ -1,7 +1,7 @@
 import {Call, MockUsageReport, ObjectAccess, PropertyAccess, PropertyGet, PropertyName, PropertySet} from "./types";
 
 
-export class Report implements MockUsageReport {
+export class CommonReport implements MockUsageReport {
 
   private history: ObjectAccess[] = [];
 

@@ -29,7 +29,6 @@ export interface Construct extends ObjectAccess {
   arguments: any[];
 }
 
-
 /**
  * object was called as function
  */
@@ -45,7 +44,6 @@ export interface Call extends ObjectAccess {
   returnValue: any;
 }
 
-
 /**
  * common property access report record
  */
@@ -56,14 +54,12 @@ export interface PropertyAccess extends ObjectAccess {
   property: PropertyName;
 }
 
-
 /**
  * property was deleted
  */
 export interface PropertyDelete extends PropertyAccess {
   type: "delete"
 }
-
 
 /**
  * property was read
@@ -79,7 +75,6 @@ export interface PropertyGet extends PropertyAccess  {
    */
   wasDefined: boolean;
 }
-
 
 /**
  * new value was set to the property
@@ -99,7 +94,6 @@ export interface PropertySet extends PropertyAccess{
    */
   created: boolean;
 }
-
 
 /**
  * report of mock usage
@@ -155,7 +149,6 @@ export interface MockUsageReport {
  * define return value policy for a handler
  */
 export type ResultValueFactory = (args: any[], handler: MockHandler) => any;
-
 
 /**
  * handler of the mock object

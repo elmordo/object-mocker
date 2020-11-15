@@ -1,12 +1,12 @@
-import {Report} from "./report";
+import {CommonReport} from "./report";
 import {Call, PropertyGet, PropertySet} from "./types";
 
 
 describe("Report", () => {
-  let report: Report;
+  let report: CommonReport;
 
   beforeEach(() => {
-    report = new Report();
+    report = new CommonReport();
   });
 
   it("should be empty after creation", () => {

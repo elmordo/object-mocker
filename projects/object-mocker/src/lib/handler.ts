@@ -9,13 +9,13 @@ import {
   Registry,
   ResultValueFactory
 } from "./types";
-import {Report} from "./report";
+import {CommonReport} from "./report";
 
 
-export class Handler implements MockHandler {
+export class CommonHandler implements MockHandler {
   emulatedPrototype: any;
 
-  readonly report: MockUsageReport = new Report();
+  readonly report: MockUsageReport = new CommonReport();
 
   readonly registry;
 
@@ -23,11 +23,11 @@ export class Handler implements MockHandler {
 
   instanceFactory: ResultValueFactory;
 
-  parent?: Handler;
+  parent?: MockHandler;
 
   readonly target: any;
 
-  constructor(options: HandlerOptions) {
+  constructor(options: CommonHandlerOptions) {
     this.registry = options.registry;
     this.returnValueFactory = options.returnValueFactory;
     this.instanceFactory = options.instanceFactory;
@@ -37,7 +37,7 @@ export class Handler implements MockHandler {
   }
 
   makeChild(): MockHandler {
-    return new Handler({
+    return new CommonHandler({
       registry: this.registry,
       returnValueFactory: this.returnValueFactory,
       instanceFactory: this.instanceFactory,
@@ -111,11 +111,11 @@ export class Handler implements MockHandler {
 export const NoEmulatedPrototype = Symbol("No emulated prototype");
 
 
-export interface HandlerOptions {
+export interface CommonHandlerOptions {
   target?: any;
   registry: Registry;
   returnValueFactory: ResultValueFactory;
   instanceFactory: ResultValueFactory;
   emulatedPrototype: any;
-  parent?: Handler;
+  parent?: MockHandler;
 }
