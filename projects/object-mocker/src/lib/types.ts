@@ -116,7 +116,7 @@ export interface Report {
    * get the last call
    * @throws Error property was not called
    */
-  lastCall(): Call;
+  getLastCall(): Call;
   /**
    * get list of all call reports of the object
    */

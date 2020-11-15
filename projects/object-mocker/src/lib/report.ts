@@ -50,7 +50,7 @@ export class CommonReport implements Report {
     return this.called;
   }
 
-  lastCall(): Call {
+  getLastCall(): Call {
     if (!this.called) {
       throw new Error("Object was not called.");
     }

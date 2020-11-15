@@ -12,6 +12,6 @@ describe("mock objects", () => {
     expect(rootHandler.report.getHistory() as PropertyGet[]).toEqual([{type: "get", wasDefined: false, value: rootHandler.target.child, property: "child"}]);
     expect(deepChildHandler.report.isCalled()).toBeTrue();
     expect(deepChildHandler.report.getHistory().length).toBe(1);
-    expect(deepChildHandler.report.lastCall().returnValue).toBe(resultOfDeepChildCall);
+    expect(deepChildHandler.report.getLastCall().returnValue).toBe(resultOfDeepChildCall);
   });
 });

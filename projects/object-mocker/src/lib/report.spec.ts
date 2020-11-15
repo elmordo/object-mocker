@@ -16,7 +16,7 @@ describe("Report", () => {
 
   describe(("when is empty"), () => {
     it("should raise error when lastCall() is called", () => {
-      expect(() => report.lastCall()).toThrow();
+      expect(() => report.getLastCall()).toThrow();
     });
   });
 
@@ -81,7 +81,7 @@ describe("Report", () => {
     });
 
     it("should has last call", () => {
-      expect(report.lastCall()).toBe(call3);
+      expect(report.getLastCall()).toBe(call3);
     });
 
     it("should has call records", () => {
