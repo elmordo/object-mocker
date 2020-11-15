@@ -29,7 +29,8 @@ describe("Handler", () => {
       emulatedPrototype,
       instanceFactory,
       returnValueFactory,
-      registry
+      registry,
+      useAutoCreate: true
     });
   });
 
@@ -221,22 +222,45 @@ describe("Handler", () => {
       describe("on not existing property", () => {
         let val;
 
-        beforeEach(() => {
-          val = handler.get(handler.target, prop, undefined);
+        describe("when useAutoCreate is false", () => {
+          beforeEach(() => {
+            handler.useAutoCreate = false;
+            val = handler.get(handler.target, prop, undefined);
+          });
+
+          it("should return the `undefined`", () => {
+            expect(val).toBeUndefined();
+          });
+
+          it("should insert a record into the report", () => {
+            const expectedReport: PropertyGet = {
+              type: "get",
+              property: prop,
+              wasDefined: false,
+              value: undefined
+            };
+            expect(handler.report.getHistory()).toEqual([expectedReport]);
+          });
         });
 
-        it("should return the `undefined`", () => {
-          expect(val).toBeUndefined();
-        });
+        describe("when useAutoCreate is true", () => {
+          it("should return a new mock object", () => {
+            val = handler.get(handler.target, prop, undefined);
+            expect(val).toBeTruthy();
+            const childHandler = registry.getHandlerByObject(val);
+            expect(childHandler.parent).toBe(handler);
+          });
 
-        it("should insert a record into the report", () => {
-          const expectedReport: PropertyGet = {
-            type: "get",
-            property: prop,
-            wasDefined: false,
-            value: undefined
-          };
-          expect(handler.report.getHistory()).toEqual([expectedReport]);
+          it("should insert a record into the report", () => {
+            val = handler.get(handler.target, prop, undefined);
+            const expectedReport: PropertyGet = {
+              type: "get",
+              property: prop,
+              wasDefined: false,
+              value: val
+            };
+            expect(handler.report.getHistory()).toEqual([expectedReport]);
+          });
         });
       });
 

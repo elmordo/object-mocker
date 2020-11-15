@@ -13,17 +13,25 @@ import {CommonReport} from "./report";
 
 
 export class CommonHandler implements Handler {
+
+  /**
+   * list of special properties used by some frameworks (e.g. jasmine)
+   */
+  static readonly SPECIAL_PROPERTIES = new Set(["jasmineToString"]);
+
   emulatedPrototype: any;
 
   readonly report: Report = new CommonReport();
 
-  readonly registry;
+  readonly registry: Registry;
 
   returnValueFactory: ResultValueFactory;
 
   instanceFactory: ResultValueFactory;
 
   parent?: Handler;
+
+  useAutoCreate: boolean;
 
   readonly target: any;
 
@@ -34,6 +42,7 @@ export class CommonHandler implements Handler {
     this.emulatedPrototype = options.emulatedPrototype;
     this.parent = options.parent || null;
     this.target = options.target || {};
+    this.useAutoCreate = options.useAutoCreate;
   }
 
   makeChild(): Handler {
@@ -42,7 +51,8 @@ export class CommonHandler implements Handler {
       returnValueFactory: this.returnValueFactory,
       instanceFactory: this.instanceFactory,
       emulatedPrototype: NoEmulatedPrototype,
-      parent: this
+      parent: this,
+      useAutoCreate: true
     });
   }
 
@@ -78,7 +88,20 @@ export class CommonHandler implements Handler {
 
   get(target: any, p: PropertyKey, receiver: any): any {
     const wasDefined = p in target;
-    const value = target[p];
+
+    // some testing frameworks access to special properties and we do not want to trap them
+    if (CommonHandler.SPECIAL_PROPERTIES.has(p as string)) {
+      return Reflect.get(target, p, receiver);
+    }
+
+    if (!wasDefined && this.useAutoCreate) {
+      const childHandler = this.makeChild();
+      const proxy = new Proxy(childHandler.target, childHandler);
+      this.registry.register(proxy, childHandler);
+      target[p] = proxy;
+    }
+
+    const value = Reflect.get(target, p, receiver);
 
     const record: PropertyGet = {
       type: "get",
@@ -118,4 +141,5 @@ export interface CommonHandlerOptions {
   instanceFactory: ResultValueFactory;
   emulatedPrototype: any;
   parent?: Handler;
+  useAutoCreate: boolean
 }

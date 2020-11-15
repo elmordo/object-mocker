@@ -15,7 +15,8 @@ describe("return value factory", () => {
       registry,
       returnValueFactory: () => null,
       instanceFactory: () => null,
-      emulatedPrototype: Object.prototype
+      emulatedPrototype: Object.prototype,
+      useAutoCreate: true
     });
   });
 
