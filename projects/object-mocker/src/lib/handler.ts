@@ -41,7 +41,7 @@ export class CommonHandler implements Handler {
     this.instanceFactory = options.instanceFactory;
     this.emulatedPrototype = options.emulatedPrototype;
     this.parent = options.parent || null;
-    this.target = options.target || {};
+    this.target = options.target || new Function();
     this.useAutoCreate = options.useAutoCreate;
   }
 

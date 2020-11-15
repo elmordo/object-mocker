@@ -1,5 +1,5 @@
 import {MockRegistry} from "./registry";
-import {Registry} from "./types";
+import {Handler, Registry} from "./types";
 import {CommonHandler, CommonHandlerOptions, NoEmulatedPrototype} from "./handler";
 import {makeSingletonFactory, makeUniqueFactory} from "./return-value-factories";
 
@@ -42,6 +42,31 @@ export function mock(options?: MockOptions): any {
 }
 
 /**
+ * get handler of the deep child identified by its path
+ * @param root the root mock object
+ * @param path a path to the interested child separated by `.`
+ * @throws Error some part of path not found.
+ */
+export function getDeepChildHandler(root: any, path: string): Handler {
+  const registry = getRegistry(), traversedPath: string[] = [];
+  let currentLevelHandler = registry.getHandlerByObject(root);
+
+  for (let p of path.split(".")) {
+    traversedPath.push(p);
+    const currentTarget = currentLevelHandler.target;
+    const child = currentTarget[p];
+
+    try {
+      currentLevelHandler = registry.getHandlerByObject(child);
+    } catch (e) {
+      throw new Error(`Deep child "${traversedPath.join(".")}" is not mocked`);
+    }
+  }
+
+  return currentLevelHandler;
+}
+
+/**
  * object interface used for mock objects initial configuration
  */
 export interface MockOptions {
@@ -64,7 +89,7 @@ function extractHandlerOptions(options: MockOptions): CommonHandlerOptions {
     parent: getPropertyOrDefault<CommonHandlerOptions>(opts, "parent", null),
     registry: getPropertyOrDefault<CommonHandlerOptions>(opts, "registry", getRegistry()),
     returnValueFactory: getPropertyOrDefault<CommonHandlerOptions>(opts, "returnValueFactory", makeSingletonFactory()),
-    target: getPropertyOrDefault<CommonHandlerOptions>(opts, "target", {})
+    target: getPropertyOrDefault<CommonHandlerOptions>(opts, "target", new Function())
   };
 }
 

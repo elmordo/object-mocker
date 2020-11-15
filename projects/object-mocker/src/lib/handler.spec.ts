@@ -303,7 +303,7 @@ describe("Handler", () => {
         });
 
         it("should return prototype of the target object", () => {
-          expect(handler.getPrototypeOf(handler.target)).toBe(Object.prototype);
+          expect(handler.getPrototypeOf(handler.target)).toBe(Function.prototype);
         });
       });
     })
