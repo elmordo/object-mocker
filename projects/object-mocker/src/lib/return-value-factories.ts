@@ -6,7 +6,7 @@ import {MockHandler, ResultValueFactory} from "./types";
 export function makeUniqueFactory(): ResultValueFactory {
   return (args: any[], handler: MockHandler) => {
     const newHandler = handler.makeChild();
-    const result = new Proxy({}, newHandler);
+    const result = new Proxy(newHandler.target, newHandler);
     handler.registry.register(result, newHandler);
     return result;
   }
@@ -20,7 +20,7 @@ export function makeSingletonFactory(): ResultValueFactory {
   return (args: any, handler: MockHandler) => {
     if (!obj) {
       const newHandler = handler.makeChild();
-      obj = new Proxy({}, newHandler);
+      obj = new Proxy(newHandler.target, newHandler);
       handler.registry.register(obj, newHandler);
     }
     return obj;

@@ -25,12 +25,15 @@ export class Handler implements MockHandler {
 
   parent?: Handler;
 
+  readonly target: any;
+
   constructor(options: HandlerOptions) {
     this.registry = options.registry;
     this.returnValueFactory = options.returnValueFactory;
     this.instanceFactory = options.instanceFactory;
     this.emulatedPrototype = options.emulatedPrototype;
-    this.parent = options.parent;
+    this.parent = options.parent || null;
+    this.target = options.target || {};
   }
 
   makeChild(): MockHandler {
@@ -47,14 +50,14 @@ export class Handler implements MockHandler {
     const returnValue = this.returnValueFactory(argArray, this);
     const record: Call = {
       type: "apply",
-      arguments: thisArg,
+      arguments: argArray,
       returnValue: returnValue
     };
     this.report.addAccessRecord(record);
     return returnValue;
   }
 
-  construct(target: any, argArray: any, newTarget?: any): object {
+  construct(target: any, argArray: any, newTarget?: any): any {
     const result = this.instanceFactory(argArray, this);
     const record: Construct = {
       type: "construct",
@@ -96,8 +99,8 @@ export class Handler implements MockHandler {
       type: "set",
       property: p as string,
       value,
+      created: p in target,
       oldValue: target[p],
-      created: p in receiver
     };
     this.report.addAccessRecord(record);
     return Reflect.set(target, p, value, receiver);
@@ -109,6 +112,7 @@ export const NoEmulatedPrototype = Symbol("No emulated prototype");
 
 
 export interface HandlerOptions {
+  target?: any;
   registry: Registry;
   returnValueFactory: ResultValueFactory;
   instanceFactory: ResultValueFactory;

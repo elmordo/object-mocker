@@ -183,6 +183,10 @@ export interface MockHandler extends ProxyHandler<any> {
    */
   instanceFactory: ResultValueFactory;
   /**
+   * the target object.
+   */
+  readonly target: any;
+  /**
    * parent handler
    */
   parent?: MockHandler

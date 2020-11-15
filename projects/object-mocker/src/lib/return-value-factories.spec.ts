@@ -1,6 +1,7 @@
 import {MockHandler, Registry, ResultValueFactory} from "./types";
 import {makeSingletonFactory, makeUniqueFactory} from "./return-value-factories";
 import {MockRegistry} from "./registry";
+import {Handler} from "./handler";
 
 
 describe("return value factory", () => {
@@ -10,12 +11,12 @@ describe("return value factory", () => {
 
   beforeEach(() => {
     registry = new MockRegistry();
-    handler = {
+    handler = new Handler({
       registry,
-      makeChild(): MockHandler {
-        return {} as any;
-      }
-    } as MockHandler;
+      returnValueFactory: () => null,
+      instanceFactory: () => null,
+      emulatedPrototype: Object.prototype
+    });
   });
 
   describe("makeUniqueFactory", () => {
