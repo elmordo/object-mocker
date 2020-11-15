@@ -182,6 +182,15 @@ export interface MockHandler extends ProxyHandler<any> {
    * factory used when the `construct` is trapped
    */
   instanceFactory: ResultValueFactory;
+  /**
+   * parent handler
+   */
+  parent?: MockHandler
+
+  /**
+   * make child handler with parent set to `this` instance
+   */
+  makeChild(): MockHandler;
 }
 
 /**

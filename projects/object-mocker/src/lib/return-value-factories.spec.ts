@@ -1,6 +1,5 @@
 import {MockHandler, Registry, ResultValueFactory} from "./types";
 import {makeSingletonFactory, makeUniqueFactory} from "./return-value-factories";
-import {Handler} from "./handler";
 import {MockRegistry} from "./registry";
 
 
@@ -12,7 +11,10 @@ describe("return value factory", () => {
   beforeEach(() => {
     registry = new MockRegistry();
     handler = {
-      registry
+      registry,
+      makeChild(): MockHandler {
+        return {} as any;
+      }
     } as MockHandler;
   });
 
@@ -30,7 +32,6 @@ describe("return value factory", () => {
     it("should register new handler into registry", function () {
       const val1 = factory([], handler);
       expect(registry.getHandlerByObject(val1)).toBeTruthy();
-      expect(registry.getHandlerByObject(val1) instanceof Handler).toBeTrue();
     });
   });
 
@@ -48,7 +49,6 @@ describe("return value factory", () => {
     it("should register new handler into registry", function () {
       const val1 = factory([], handler);
       expect(registry.getHandlerByObject(val1)).toBeTruthy();
-      expect(registry.getHandlerByObject(val1) instanceof Handler).toBeTrue();
     });
   });
 });

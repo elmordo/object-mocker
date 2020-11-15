@@ -23,11 +23,24 @@ export class Handler implements MockHandler {
 
   instanceFactory: ResultValueFactory;
 
-  constructor(config: HandlerOptions) {
-    this.registry = config.registry;
-    this.returnValueFactory = config.returnValueFactory;
-    this.instanceFactory = config.instanceFactory;
-    this.emulatedPrototype = config.emulatedPrototype;
+  parent?: Handler;
+
+  constructor(options: HandlerOptions) {
+    this.registry = options.registry;
+    this.returnValueFactory = options.returnValueFactory;
+    this.instanceFactory = options.instanceFactory;
+    this.emulatedPrototype = options.emulatedPrototype;
+    this.parent = options.parent;
+  }
+
+  makeChild(): MockHandler {
+    return new Handler({
+      registry: this.registry,
+      returnValueFactory: this.returnValueFactory,
+      instanceFactory: this.instanceFactory,
+      emulatedPrototype: NoEmulatedPrototype,
+      parent: this
+    });
   }
 
   apply(target: any, thisArg: any, argArray?: any): any {
@@ -100,4 +113,5 @@ export interface HandlerOptions {
   returnValueFactory: ResultValueFactory;
   instanceFactory: ResultValueFactory;
   emulatedPrototype: any;
+  parent?: Handler;
 }
