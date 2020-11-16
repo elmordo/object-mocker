@@ -1,6 +1,14 @@
 {
   "name": "object-mocker",
   "version": "0.0.1",
+  "author": {
+    "name": "Petr Jindra",
+    "email": "el.mordo@gmail.com",
+    "url": "https://github.com/elmordo"
+  },
+  "description": "The mock object library inspired by the Python's mocks",
+  "keywords": ["testing", "mock object"],
+  "homepage": "https://github.com/elmordo/object-mocker",
   "peerDependencies": {
     "@angular/common": "^10.1.6",
     "@angular/core": "^10.1.6"
