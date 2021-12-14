@@ -1,6 +1,6 @@
 {
   "name": "object-mocker",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "author": {
     "name": "Petr Jindra",
     "email": "el.mordo@gmail.com",
@@ -12,8 +12,7 @@
     "mock object"
   ],
   "homepage": "https://github.com/elmordo/object-mocker",
-  "peerDependencies": {
-  },
+  "peerDependencies": {},
   "dependencies": {
     "tslib": "^2.0.0"
   }
